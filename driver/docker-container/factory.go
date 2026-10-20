@@ -1,13 +1,13 @@
 package docker
 
 import (
+	dockeropts "github.com/docker/cli/opts"
 	"context"
 	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/docker/buildx/driver"
-	dockeropts "github.com/docker/cli/opts"
 	dockerclient "github.com/moby/moby/client"
 	"github.com/pkg/errors"
 )
@@ -51,12 +51,6 @@ func (f *factory) New(ctx context.Context, cfg driver.InitConfig) (driver.Driver
 		InitConfig:         cfg,
 		restartPolicy:      rp,
 		writeProvenanceGHA: true,
-	}
-	var gpus dockeropts.GpuOpts
-	if err := gpus.Set("all"); err == nil {
-		if v := gpus.Value(); len(v) > 0 {
-			d.gpus = v
-		}
 	}
 	for k, v := range cfg.DriverOpts {
 		switch {
